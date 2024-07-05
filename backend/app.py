@@ -4,7 +4,7 @@ from db.formula1 import db, Drivers
 app = Flask(__name__)
 port = 5000
 
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://fiscina:fiscina@localhost:5432/formulauno_db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 @app.route('/')
