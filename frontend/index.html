@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula 1</title>
+</head>
+<body>
+    <h1> Drivers </h1>
+    <ul id="list">
+    </ul>
+
+    <script>
+        function response_received(response){
+            consolo.log("SUCCES")
+            console.log(response)
+
+            return response.json()
+        }
+        function parse_data(content){
+            console.log(content)
+            const list = document.getElementById("list")
+            for (let index = 0; index < content.length; index++) {
+                const item = document.createElement("li");
+                item.append(content[index].name);
+                list.append(item);
+            }
+        }
+
+        function request_error(error){
+            consolo.log("ERROR")
+            console.log(error)
+        }
+        
+        fetch("http://localhost:5000/drivers")
+            .then(response_received)
+            .then(parse_data)
+            .catch(request_error)
+    </script>
+</body>
+</html>
