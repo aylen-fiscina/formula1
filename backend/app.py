@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from db.formula1 import db, Drivers
+from db.formula1 import db, Drivers, Escuderias
 
 app = Flask(__name__)
 port = 5000
@@ -19,19 +19,39 @@ def get_drivers():
         pilotos_data = []
         for drivers in pilotos:
             drivers_data = {
-                'id': drivers.id,
+                'id': drivers.id_piloto,
                 'Nombre': drivers.firstName,
                 'Apellido': drivers.lastName,
                 'Nacionalidad': drivers.city,
                 'Equipo': drivers.team,
                 'Podios': drivers.podiums,
-                'Campeonatos Mundiales': drivers.world_champions,   
+                'Campeonatos Mundiales': drivers.world_championships_piloto,   
+                'Numero': drivers.number_piloto,
             }
             pilotos_data.append(drivers_data)
         return jsonify({'pilotos': pilotos_data})
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
+
+@app.route('/escuderias', methods=['GET'])
+def get_teams():
+    try:
+        escuderias = Escuderias.query.all()
+        escuderias_data = []
+        for escuderia in escuderias:
+            escuderia_data = {
+                'id': escuderia.id_team,
+                'Campeonatos Mundiales': escuderia.world_championships_team,
+                'Nombre Escuderia': escuderia.full_team_name,
+                'Jefe de Equipo': escuderia.team_chief,
+            }
+            escuderias_data.append(escuderia_data)
+        return jsonify({'escuderias': escuderias_data})
+    except Exception as error:
+        print('Error:', error)  
+        return jsonify({'message': 'Error interno del servidor'}), 500
+
     
 if __name__ == '__main__':
     db.init_app(app)  
