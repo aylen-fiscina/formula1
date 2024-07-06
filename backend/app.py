@@ -1,38 +1,37 @@
-from flask import Flask, request, jsonify
-from db.formula1 import db, Drivers, Escuderias
+from flask import Flask, jsonify
+from flask_cors import CORS
+from db.formula1 import db, Drivers, Escuderias  
 
 app = Flask(__name__)
-port = 5000
-
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+CORS(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello !'
-
+    return 'Hello!'
 
 @app.route('/pilotos', methods=['GET'])
 def get_drivers():
     try:
         pilotos = Drivers.query.all()
         pilotos_data = []
-        for drivers in pilotos:
-            drivers_data = {
-                'id': drivers.id_piloto,
-                'Nombre': drivers.firstName,
-                'Apellido': drivers.lastName,
-                'Nacionalidad': drivers.city,
-                'Equipo': drivers.team,
-                'Podios': drivers.podiums,
-                'Campeonatos Mundiales': drivers.world_championships_piloto,   
-                'Numero': drivers.number_piloto,
+        for driver in pilotos:
+            driver_data = {
+                'id': driver.id_piloto,
+                'Nombre': driver.firstName,
+                'Apellido': driver.lastName,
+                'Nacionalidad': driver.city,
+                'Equipo': driver.team,
+                'Podios': driver.podiums,
+                'Campeonatos Mundiales': driver.world_championships_piloto,
+                'Numero': driver.number_piloto,
             }
-            pilotos_data.append(drivers_data)
+            pilotos_data.append(driver_data)
         return jsonify({'pilotos': pilotos_data})
     except Exception as error:
-        print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
+        print('Error:', error)
+        return jsonify({'message': 'Error interno del servidor'}), 500
 
 @app.route('/escuderias', methods=['GET'])
 def get_teams():
@@ -49,13 +48,12 @@ def get_teams():
             escuderias_data.append(escuderia_data)
         return jsonify({'escuderias': escuderias_data})
     except Exception as error:
-        print('Error:', error)  
+        print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
 
-    
 if __name__ == '__main__':
-    db.init_app(app)  
     with app.app_context():
+        db.init_app(app)
         db.create_all()
-        print("Tables created successfully!")  
-    app.run(host='0.0.0.0', debug=True, port=port)
+        print("Tables created successfully!")
+    app.run(host='localhost', port=5000, debug=True)
