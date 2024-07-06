@@ -9,13 +9,15 @@ class Drivers(db.Model):
     lastName = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(255), nullable=False)
     team = db.Column(db.String(255), nullable=False)
-    podiums= db.Column(db.Integer, nullable=False)
-    world_championships_piloto= db.Column(db.Integer, nullable=False)
+    podiums = db.Column(db.Integer, nullable=False)
+    world_championships_piloto = db.Column(db.Integer, nullable=False)
     number_piloto = db.Column(db.Integer, nullable=False)
-    
+    image_url_piloto = db.Column(db.String(255))
+
 class Escuderias(db.Model):
     __tablename__ = 'escuderias'
     id_team = db.Column(db.Integer, primary_key=True)
-    full_team_name= db.Column(db.String(255), nullable=False)
+    full_team_name = db.Column(db.String(255), nullable=False)
     world_championships_team = db.Column(db.Integer, nullable=False)
     team_chief = db.Column(db.String(255), nullable=False)
+    image_url_escuderia = db.Column(db.String(255))

@@ -24,8 +24,9 @@ def get_drivers():
                 'Nacionalidad': driver.city,
                 'Equipo': driver.team,
                 'Podios': driver.podiums,
-                'Campeonatos Mundiales': driver.world_championships_piloto,
+                'CampeonatosMundiales': driver.world_championships_piloto,
                 'Numero': driver.number_piloto,
+                'Imagen': driver.image_url_piloto,
             }
             pilotos_data.append(driver_data)
         return jsonify({'pilotos': pilotos_data})
@@ -41,9 +42,11 @@ def get_teams():
         for escuderia in escuderias:
             escuderia_data = {
                 'id': escuderia.id_team,
-                'Campeonatos Mundiales': escuderia.world_championships_team,
-                'Nombre Escuderia': escuderia.full_team_name,
-                'Jefe de Equipo': escuderia.team_chief,
+                'CampeonatosMundiales': escuderia.world_championships_team,
+                'NombreEscuderia': escuderia.full_team_name,
+                'JefedeEquipo': escuderia.team_chief,
+                'ImagenEscuderia': escuderia.image_url_escuderia,
+                
             }
             escuderias_data.append(escuderia_data)
         return jsonify({'escuderias': escuderias_data})
@@ -55,5 +58,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
         db.create_all()
-        print("Tables created successfully!")
     app.run(host='localhost', port=5000, debug=True)
