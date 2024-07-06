@@ -29,47 +29,82 @@
                             <a class="nav-link active bs-light-text-emphasis" aria-current="page" href="#">Resultados</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pilotos</a>
+                            <a id="pilotos-link" class="nav-link" href="#">Pilotos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Equipos</a>
+                            <a id="escuderias-link" class="nav-link" href="#">Equipos</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container mt-4">
-        <h1 class="mb-4">Pilotos</h1>
-        <ul id="list" class="list-group">
-        </ul>
+    <div id="pilotos-section" class="container mt-4" style="display: none;">
+        <h1>Pilotos</h1>
+        <ul id="list_pilotos" class="list-group"></ul>
     </div>
- <script>
         
-    function response_received(response) {
-        return response.json()
-    }
-    function parse_data(content) {
-        console.log(content);
-        const pilotos = content.pilotos; 
-        const list = document.getElementById("list");
-
-        pilotos.forEach(piloto => {
-            const item = document.createElement("li");
-        item.textContent = piloto.Nombre + ' ' + piloto.Apellido; 
-        list.appendChild(item);
+    <div id="escuderias-section" class="container mt-4" style="display: none;">
+        <h1>Escuderias</h1>
+            <ul id="list_escuderias" class="list-group"></ul>
+        </div>
+    <script>
+        
+        function response_received(response) {
+            return response.json()
+        }
+    
+        function parse_data_escuderias(content) {
+            console.log(content);
+            const escuderias = content.escuderias; 
+            const list = document.getElementById("list_escuderias");
+            list.innerHTML = '';
+    
+            escuderias.forEach(escuderia => {
+                const item = document.createElement("li");
+            item.textContent = escuderia.NombreEscuderia;
+            list.appendChild(item);
+            });
+            document.getElementById("escuderias-section").style.display = "block";
+            document.getElementById("pilotos-section").style.display = "none";
+        }
+        function parse_data_pilotos(content) {
+            console.log(content);
+            const pilotos = content.pilotos; 
+            const list = document.getElementById("list_pilotos");
+            list.innerHTML = '';
+            
+    
+            pilotos.forEach(piloto => {
+                const item = document.createElement("li");
+            item.textContent = piloto.Nombre + ' ' + piloto.Apellido; 
+            list.appendChild(item);
+            });
+            document.getElementById("escuderias-section").style.display = "none";
+            document.getElementById("pilotos-section").style.display = "block";
+        }
+    
+        function request_error(error) {
+            console.log("ERROR")
+            console.log(error);
+        }
+        
+        document.getElementById("pilotos-link").addEventListener("click", function(event) {
+            event.preventDefault(); 
+        fetch("http://localhost:5000/pilotos")
+            .then(response_received)
+            .then(parse_data_pilotos)
+            .catch(request_error)
         });
-    }
 
-    function request_error(error) {
-        console.log("ERROR")
-        console.log(error);
-    }
 
-    fetch("http://localhost:5000/pilotos")
-        .then(response_received)
-        .then(parse_data)
-        .catch(request_error)
-</script>
-</body>
-</html>
+        document.getElementById("escuderias-link").addEventListener("click", function(event) {
+            event.preventDefault(); 
+        fetch("http://localhost:5000/escuderias")
+            .then(response_received)
+            .then(parse_data_escuderias)
+            .catch(request_error)
+        });
+    </script>
+    </body>
+    </html>
