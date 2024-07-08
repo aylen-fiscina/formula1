@@ -13,47 +13,60 @@
       h1{
         font-weight: 700;
       }
-        .driver-container {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            display: inline-block; /* Arrange drivers side-by-side (optional) */
-            width: calc(200px - 20px); /* Adjust width as needed */
-        }
-        .driver-name {
-            font-weight: bold;
-        }
-        .driver-image {
-            width: 100%;
-            max-width: 150px; /* Adjust image size as needed */
-        }
+      .driver-container {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: calc(50% - 20px);
+    float: left;
+    box-sizing: border-box;
+    display: flex; /* Utilizar flexbox */
+    flex-direction: column; /* Apilar elementos verticalmente */
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center; /* Centrar horizontalmente */
+}
+
+.driver-name {
+    font-weight: bold;
+    margin-bottom: 10px; /* Espacio inferior para separar del contenido siguiente */
+    text-align: center; /* Centrar el texto */
+}
+
+.driver-image {
+    width: 100%;
+    max-width: 150px;
+    display: block;
+    margin: 0 auto 10px; /* Centrar la imagen y dar espacio inferior */
+}
+
+.driver-info {
+    text-align: center; /* Centrar el texto de la información del piloto */
+    margin-bottom: 0; /* Eliminar el margen inferior predeterminado */
+}
+
     </style>
 </head>
 <body>
     <header class="container-fluid bg-danger d-flex">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.html">
                     <img class="rounded float-start" src="https://media.formula1.com/image/upload/f_auto,c_limit,w_195,q_auto/etc/designs/fom-website/images/f1_logo" alt="Formula1" width="100">
                 </a>
             </div>
         </nav>
         <nav class="navbar navbar-expand-lg bg-danger bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Inicio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active bs-light-text-emphasis" aria-current="page" href="resultados.html">Resultados</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pilotos.html">Pilotos</a>
+                            <a id="pilotos-link" class="nav-link" href="pilotos.html">Pilotos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="equipos.html">Equipos</a>
+                            <a id="escuderias-link" class="nav-link" href="equipos.html">Equipos</a>
                         </li>
                     </ul>
                 </div>
@@ -61,45 +74,56 @@
         </nav>
     </header>
     </br>
-    <h1>Pilotos de Fórmula 1</h1>
+    <h1 style="text-align: center;">Pilotos de Fórmula 1</h1>
     <div id="driver-list"></div>
    
     <script>
-        
-        function response_received(response) {
-            return response.json()
-        }
-    
+  function fetch_pilotos() {
+    fetch("http://localhost:5000/pilotos")
+      .then(response => response.json())
+      .then(data => {
+        parse_data_pilotos(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
       
         function parse_data_pilotos(content) {
             console.log(content);
             const pilotos = content.pilotos; 
-            const list = document.getElementById("driver-list");
-            list.innerHTML = '';
+            const driversList = document.getElementById("driver-list");
+            driversList.innerHTML = '';
             
-        driversData.forEach((driver) => {
+        pilotos.forEach((piloto) => {
          const container = document.createElement('div');
         container.classList.add('driver-container');
 
        const driverName = document.createElement('h3');
        driverName.classList.add('driver-name');
-       driverName.textContent = `${driver.firstName} ${driver.lastName}`;
+       driverName.textContent = `${piloto.Numero} - ${piloto.Nombre} ${piloto.Apellido}`;
 
       const driverImage = document.createElement('img');
       driverImage.classList.add('driver-image');
-      driverImage.src = driver.imageUrl;
+      driverImage.src = piloto.Imagen;
 
          const driverInfo = document.createElement('p');
-         driverInfo.textContent = `Equipo: ${driver.team}, Podiums: ${driver.podiums}, Campeonatos: ${driver.championships}, Número: ${driver.number}`;
+         driverInfo.textContent = `Equipo: ${piloto.Equipo}`;
 
         container.appendChild(driverName);
         container.appendChild(driverImage);
         container.appendChild(driverInfo);
 
-     driverList.appendChild(container);
+     driversList.appendChild(container);
 });
             
         }
+        document.getElementById("pilotos-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    fetch_pilotos();
+  });
+
+  fetch_pilotos();
     
     
     </script>

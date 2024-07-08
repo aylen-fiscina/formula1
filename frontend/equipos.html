@@ -7,58 +7,53 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <style>
-      h1{
-        font-weight: 700;
-        font-family:fantasy;
-      }
-
-      a{
-        color: #ddd;
-      }
-      .team-container {
-          border: 1px solid #ddd;
-          padding: 10px;
-          margin-bottom: 10px;
-          display: inline-block;
-          width: calc(33% - 20px);
-          text-align: center;
-      }
-      .team-name {
-          font-weight: bold;
-          
-      }
-
-      .team-container img{
-        width: 200px;
+     a{
+      color: #ddd;
+    }
+    h1{
+      font-weight: 700;
     }
       
-  </style>
+      .team-container {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        width: calc(33% - 20px);
+        text-align: center;
+      }
+
+      .team-name {
+        font-weight: bold;
+      }
+
+      .team-container img {
+        width: 200px;
+      }
+    </style>
 </head>
 <body>
   <header class="container-fluid bg-danger d-flex">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html">
                 <img class="rounded float-start" src="https://media.formula1.com/image/upload/f_auto,c_limit,w_195,q_auto/etc/designs/fom-website/images/f1_logo" alt="Formula1" width="100">
             </a>
         </div>
     </nav>
     <nav class="navbar navbar-expand-lg bg-danger bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Inicio</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active bs-light-text-emphasis" aria-current="page" href="resultados.html">Resultados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pilotos.html">Pilotos</a>
+                        <a id="pilotos-link" class="nav-link" href="pilotos.html">Pilotos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="equipos.html">Equipos</a>
+                        <a id="escuderias-link" class="nav-link" href="equipos.html">Equipos</a>
                     </li>
                 </ul>
             </div>
@@ -66,44 +61,56 @@
     </nav>
 </header>
 
-</br>
-    <h1>  Formula 1 Teams</h1>
-   
-    <div id="team-list"></div>
+<h1 style="text-align: center;">Equipos de Formula 1</h1>
+<div id="team-list"></div>
 
-
-    <script>
-    
-    function parse_data_escuderias(content) {
-      console.log(content);
-      const escuderias = content.escuderias; 
-      const teamList = document.getElementById("team-list");
-      list.innerHTML = '';
-    
-
-teamsData.forEach((team) => {
-  const container = document.createElement('div');
-  container.classList.add('team-container');
-
-  const teamName = document.createElement('h3');
-  teamName.classList.add('team-name');
-  teamName.textContent = team.name;
-
-  const teamImage = document.createElement('img');
-  teamImage.classList.add('team-image');
-  teamImage.src = team.image;
-
-  const teamInfo = document.createElement('p');
-  teamInfo.textContent = `Championships: ${team.championships}, Team Chief: ${team.chief}`;
-
-  container.appendChild(teamName);
-  container.appendChild(teamImage);
-  container.appendChild(teamInfo);
-
-  teamList.appendChild(container);
-});
+<script>
+  function fetch_escuderias() {
+    fetch("http://localhost:5000/escuderias")
+      .then(response => response.json())
+      .then(data => {
+        parse_data_escuderias(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   }
-    
+
+  function parse_data_escuderias(content) {
+    console.log(content);
+    const escuderias = content.escuderias;
+    const teamList = document.getElementById("team-list");
+    teamList.innerHTML = '';
+
+    escuderias.forEach((escuderia) => {
+      const container = document.createElement('div');
+      container.classList.add('team-container');
+
+      const teamName = document.createElement('h3');
+      teamName.classList.add('team-name');
+      teamName.textContent = escuderia.NombreEscuderia;
+
+      const teamImage = document.createElement('img');
+      teamImage.classList.add('team-image');
+      teamImage.src = escuderia.ImagenEscuderia;
+
+      const teamInfo = document.createElement('p');
+      teamInfo.textContent = `Campeonatos: ${escuderia.CampeonatosMundiales}, Jefe de Equipo: ${escuderia.JefedeEquipo}`;
+
+      container.appendChild(teamName);
+      container.appendChild(teamImage);
+      container.appendChild(teamInfo);
+
+      teamList.appendChild(container);
+    });
+  }
+
+  document.getElementById("escuderias-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    fetch_escuderias();
+  });
+
+  fetch_escuderias();
 </script>
 
 </body>
