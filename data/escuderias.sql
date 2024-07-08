@@ -1,4 +1,4 @@
-INSERT INTO public.escuderias (full_team_name,world_championships_team,team_chief,image_url_escuderia) VALUES
+INSERT INTO public.escuderia (nombre,campeonatos_mundiales,lider, imagen) VALUES
 	 ('Red Bull Racing',6,'Christian Horner','https://media.formula1.com/image/upload/f_auto,c_limit,q_75,w_1320/content/dam/fom-website/2018-redesign-assets/team%20logos/red%20bull.png'),
 	 ('Ferrari',16,'Frédéric Vasseur','https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/team%20logos/ferrari.png'),
 	 ('McLaren',8,'Andrea Stella','https://media.formula1.com/image/upload/f_auto,c_limit,q_75,w_1320/content/dam/fom-website/2018-redesign-assets/team%20logos/mclaren.png'),
