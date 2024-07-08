@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 db = SQLAlchemy()
 
-class Drivers(db.Model):
+class Pilotos(db.Model):
     __tablename__ = 'pilotos'
     id_piloto = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(255), nullable=False)
@@ -21,3 +22,11 @@ class Escuderias(db.Model):
     world_championships_team = db.Column(db.Integer, nullable=False)
     team_chief = db.Column(db.String(255), nullable=False)
     image_url_escuderia = db.Column(db.String(255))
+
+class Circuitos(db.Model):
+    __tablename__ = 'circuitos'
+    id_circuito = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(255), nullable=False)
+    longitud = db.Column(db.Float, nullable=False)
+    date =  db.Column(db.Date, nullable=False) 
