@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db.formula1 import db, Piloto, Escuderia, Circuito
 
@@ -14,24 +14,52 @@ def hello_world():
 @app.route('/pilotos', methods=['GET'])
 def get_drivers():
     try:
-        pilotos = Piloto.query.all()
+        pilotos = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).all()
         pilotos_data = []
-        for driver in pilotos:
+        for piloto, escuderia in pilotos:
             driver_data = {
-                'id': driver.id_piloto,
-                'nombre': driver.nombre,
-                'apellido': driver.apellido,
-                'nacionalidad': driver.ciudad,
-                'podios': driver.podios,
-                'campeonatos_mundiales': driver.campeonatos_mundiales,
-                'numero': driver.numero,
-                'imagen': driver.imagen,
+                'id': piloto.id_piloto,
+                'nombre': piloto.nombre,
+                'apellido': piloto.apellido,
+                'equipo': escuderia.nombre,  
+                'nacionalidad': piloto.ciudad,
+                'podios': piloto.podios,
+                'campeonatos_mundiales': piloto.campeonatos_mundiales,
+                'numero': piloto.numero,
+                'imagen': piloto.imagen,
             }
             pilotos_data.append(driver_data)
         return jsonify({'pilotos': pilotos_data})
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
+
+@app.route('/pilotos/<int:id_piloto>', methods=['GET'])
+def get_driver(id_piloto):
+    try:
+        piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id_piloto).first()
+        
+        if not piloto:
+            return jsonify({'message': 'Piloto no encontrado'}), 404
+    
+        driver_data = {
+            'id': piloto.id_piloto,
+            'nombre': piloto.nombre,
+            'apellido': piloto.apellido,
+            'equipo': escuderia.nombre,
+            'nacionalidad': piloto.ciudad,
+            'podios': piloto.podios,
+            'campeonatos_mundiales': piloto.campeonatos_mundiales,
+            'numero': piloto.numero,
+            'imagen': piloto.imagen,
+        }
+        
+        return jsonify(driver_data)
+    
+    except Exception as error:
+        print('Error:', error)
+        return jsonify({'message': 'Error interno del servidor'}), 500
+
 
 @app.route('/escuderias', methods=['GET'])
 def get_teams():
@@ -41,14 +69,35 @@ def get_teams():
         for escuderia in escuderias:
             escuderia_data = {
                 'id': escuderia.id_escuderia,
-                'campeonatos_mundiales': escuderia.campeonatos_mundiales,
                 'nombre': escuderia.nombre,
+                'campeonatos_mundiales': escuderia.campeonatos_mundiales,
                 'lider': escuderia.lider,
                 'imagen': escuderia.imagen,
-                
             }
             escuderias_data.append(escuderia_data)
         return jsonify({'escuderias': escuderias_data})
+    except Exception as error:
+        print('Error:', error)
+        return jsonify({'message': 'Error interno del servidor'}), 500
+    
+@app.route('/escuderias/<int:id_escuderia>', methods=['GET'])
+def get_team(id_escuderia):
+    try:
+        escuderia = Escuderia.query.get(id_escuderia)
+
+        if not escuderia:
+            return jsonify({'message': 'Escudería no encontrada'}), 404
+
+        team_data = {
+            'id': escuderia.id_escuderia,
+            'nombre': escuderia.nombre,
+            'campeonatos_mundiales': escuderia.campeonatos_mundiales,
+            'lider': escuderia.lider,
+            'imagen': escuderia.imagen,
+        }
+        
+        return jsonify(team_data)
+    
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
@@ -64,8 +113,7 @@ def get_races():
                 'NombreCircuito': circuito.nombre,
                 'Pais': circuito.ciudad,
                 'Distancia': circuito.distancia,
-                'imagen': circuito.imagen,
-                #'Fecha': circuito.date.strftime('%Y-%m-%d'), 
+                'Fecha': circuito.fecha, 
             }
             circuitos_data.append(circuito_data)
         return jsonify({'circuitos': circuitos_data})  
