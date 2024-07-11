@@ -30,12 +30,12 @@ class Circuito(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     ciudad = db.Column(db.String(255), nullable=False)
     distancia = db.Column(db.Integer, nullable=False)
-    imagen = db.Column(db.String(255), nullable=False)
+    fecha = db.Column(db.Date, nullable=True) 
 
 class Carrera(db.Model):
     __tablename__ = 'carrera'
     id_piloto = db.Column(db.Integer, db.ForeignKey('piloto.id_piloto'), primary_key=True)
     id_circuito = db.Column(db.Integer, db.ForeignKey('circuito.id_circuito'), primary_key=True)
-    fecha = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.Date, nullable=True) 
     pos = db.Column(db.Integer, nullable=False)
     puntos = db.Column(db.Integer, nullable=False)
