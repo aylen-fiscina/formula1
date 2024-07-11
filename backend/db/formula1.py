@@ -29,7 +29,7 @@ class Circuito(db.Model):
     id_circuito = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     ciudad = db.Column(db.String(255), nullable=False)
-    distancia = db.Column(db.Integer, nullable=False)
+    distancia = db.Column(db.Float, nullable=False)
     fecha = db.Column(db.Date, nullable=True) 
 
 class Carrera(db.Model):
