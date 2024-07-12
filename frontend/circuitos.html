@@ -79,27 +79,6 @@
             });
     }
 
-    
-
-
-function createCircuitRow(circuit) {
-    const tableRow = document.createElement('tr');
-
-    const circuitName = document.createElement('td');
-    circuitName.textContent = circuit.nombre;
-
-    const circuitCity = document.createElement('td');
-    circuitCity.textContent = circuit.ciudad;
-
-    const circuitDistance = document.createElement('td');
-    circuitDistance.textContent = circuit.distancia;
-
-    tableRow.appendChild(circuitName);
-    tableRow.appendChild(circuitCity);
-    tableRow.appendChild(circuitDistance);
-
-    return tableRow;
-}
 
 function parse_data_circuitos(content) {
         console.log(content);
@@ -111,6 +90,50 @@ function parse_data_circuitos(content) {
         circuitsList.appendChild(tableRow);
     
     });}
+
+
+
+    function fetch_circuitos() {
+            fetch("http://localhost:5000/circuitos")
+                .then(response => response.json())
+                .then(data => {
+                    parse_data_circuitos(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function parse_data_circuitos(content) {
+            console.log(content);
+            const circuits = content.circuits;
+            const circuitList = document.getElementById("circuit-list");
+            circuitList.innerHTML = '';
+
+            pilotos.forEach((piloto) => {
+                const tableRow = document.createElement('tr');
+                const circuitName = document.createElement('td');
+                circuitName.textContent = circuit.nombre;
+                const circuitCity = document.createElement('td');
+                circuitCity.textContent = circuit.ciudad;
+                const circuitDistance = document.createElement('td');
+                circuitDistance.textContent = circuit.distancia;
+
+              tableRow.appendChild(circuitName);
+              tableRow.appendChild(circuitCity);
+              tableRow.appendChild(circuitDistance);
+              circuitsList.appendChild(tableRow);
+
+
+        
+
+                container.appendChild(card);
+                driversList.appendChild(container);
+            });
+        }
+
+    
+    </script>
 
 </script>
 </body>
