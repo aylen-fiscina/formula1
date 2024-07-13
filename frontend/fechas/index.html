@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Formula 1</title>
+</head>
+<body>
+    <h1>Fechas</h1>
+    <input type="button" value="Volver" onclick="history.back()"/>
+
+    <ol id="lista" class="list-group"></ol>
+    
+    </header>
+    <script>
+        
+        function response_received(response) {
+            return response.json()
+        }
+
+
+
+        function parse_data(content) {
+            console.log(content);
+            let lista = document.getElementById("lista");
+
+            console.log(content);
+            for (index in content.fechas) {
+
+                let span = document.createElement('span');
+                span.classList.add('badge');
+                span.innerText = ((content.fechas[index].distancia));
+                span.style.marginLeft = 'left';
+
+                let linkDiv = document.createElement('a');
+                linkDiv.innerText = content.fechas[index].nombre + ' ' + ' - ' + ' ' + content.fechas[index].ciudad;
+                linkDiv.setAttribute("href", `tabla/index.html?fecha=${fecha}&id=${content.fechas[index].id}`)
+
+                let li = document.createElement('li');
+                li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'col-auto');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+
+                li.appendChild(linkDiv);
+                li.appendChild(span);
+                
+
+                lista.appendChild(li);
+
+            };
+        }
+            
+        const params = new URLSearchParams(window.location.search);
+        const fecha = params.get("fecha");
+
+
+        function request_error(error) {
+            console.log("ERROR")
+           console.log(error);
+        }
+
+        fetch(`http://localhost:5000/fechas/${fecha}`)
+            .then(response_received)
+            .then(parse_data)
+            .catch(request_error)
+    </script>
+    </body>
+</html>
