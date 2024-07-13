@@ -141,6 +141,27 @@ def get_fechas(fecha):
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
     
+@app.route('/fechas/tabla/<fecha>&<id>', methods=['GET'])
+def get_tabla(fecha, id):
+    try:
+        carreras = db.session.query(Carrera, Piloto, Escuderia).join(Piloto, Carrera.id_piloto == Piloto.id_piloto).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Carrera.fecha == fecha, Carrera.id_circuito == id).all()
+        carrera_data = []
+        for race, piloto, escuderia in carreras :
+            print(piloto.nombre)
+            race_data = {
+                'piloto_nombre': piloto.nombre,
+                'piloto_apellido': piloto.apellido,
+                'posicion': race.pos,
+                'puntos': race.puntos,
+                'escuderia_imagen': escuderia.imagen,
+                'escuderia_nombre': escuderia.nombre,           
+            }
+            carrera_data.append(race_data)
+        return jsonify({'carrera': carrera_data})
+    except Exception as error:
+        print('Error:', error)
+        return jsonify({'message': 'Error interno del servidor'}), 500
+    
 
 if __name__ == '__main__':
     with app.app_context():
