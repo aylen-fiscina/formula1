@@ -80,10 +80,10 @@ def get_teams():
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
     
-@app.route('/escuderias/<int:id_escuderia>', methods=['GET'])
-def get_team(id_escuderia):
+@app.route('/escuderia/<id>', methods=['GET'])
+def get_team(id):
     try:
-        escuderia = Escuderia.query.get(id_escuderia)
+        escuderia = db.session.query(Escuderia).filter(Escuderia.id_escuderia == id).all()
 
         if not escuderia:
             return jsonify({'message': 'Escudería no encontrada'}), 404
@@ -95,8 +95,7 @@ def get_team(id_escuderia):
             'lider': escuderia.lider,
             'imagen': escuderia.imagen,
         }
-        
-        return jsonify(team_data)
+        return jsonify({'escuderia':team_data})
     
     except Exception as error:
         print('Error:', error)
