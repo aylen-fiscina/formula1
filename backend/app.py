@@ -14,7 +14,7 @@ def hello_world():
 @app.route('/pilotos', methods=['GET'])
 def get_drivers():
     try:
-        pilotos = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).all()
+        pilotos, escuderia = db.session.query(Piloto).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).all()
         pilotos_data = []
         for piloto, escuderia in pilotos:
             driver_data = {
