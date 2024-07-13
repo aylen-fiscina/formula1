@@ -68,32 +68,8 @@
 </div>
 <script>
 
-  function fetch_circuitos() {
-        fetch("http://localhost:5000/circuitos")
-            .then(response => response.json())
-            .then(data => {
-                parse_data_circuitos(data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
 
-
-function parse_data_circuitos(content) {
-        console.log(content);
-        const circuits = content.circuits;
-        const teamList = document.getElementById("team-list");
-        teamList.innerHTML = '';
-        circuits.forEach(circuit => {
-        const tableRow = createCircuitRow(circuit);
-        circuitsList.appendChild(tableRow);
-    
-    });}
-
-
-
-    function fetch_circuitos() {
+function fetch_circuitos() {
             fetch("http://localhost:5000/circuitos")
                 .then(response => response.json())
                 .then(data => {
@@ -110,7 +86,7 @@ function parse_data_circuitos(content) {
             const circuitList = document.getElementById("circuit-list");
             circuitList.innerHTML = '';
 
-            pilotos.forEach((piloto) => {
+            circuits.forEach((circuit) => {
                 const tableRow = document.createElement('tr');
                 const circuitName = document.createElement('td');
                 circuitName.textContent = circuit.nombre;
@@ -124,11 +100,6 @@ function parse_data_circuitos(content) {
               tableRow.appendChild(circuitDistance);
               circuitsList.appendChild(tableRow);
 
-
-        
-
-                container.appendChild(card);
-                driversList.appendChild(container);
             });
         }
 
