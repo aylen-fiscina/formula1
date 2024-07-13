@@ -1,0 +1,30 @@
+.html {
+  box-sizing: content-box;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Cuatro columnas con igual ancho */
+  gap: 20px; /* Espacio entre las cards */
+}
+
+.card {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+
+#lista .list-group-item {
+  padding: 15px 70px; /* Ajuste de padding para los <li> */
+  font-size: 12px; /* Tamaño de fuente para los <li> */
+}
+
+
+#lista {
+  font-size: 10px; /* Tamaño de fuente para los <span> con clase 'badge' */
+  padding: 20px;
+
+}
+
