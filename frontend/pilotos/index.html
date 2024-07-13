@@ -17,6 +17,7 @@
         <div class="row">
             <div class="col-12 col-md-10 mx-auto">
                 <div class="card">
+                    <img id="imagen"/>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
@@ -53,8 +54,8 @@
                 return response.json();
             }
 
-            function parse_data(piloto) {
-                console.log(piloto);
+            function parse_data(content) {
+                let piloto = content.piloto.shift();
 
                 const name = document.getElementById("name");
                 name.innerText = `${piloto.numero} - ${piloto.nombre} ${piloto.apellido}`;
@@ -76,13 +77,17 @@
 
                 const campeonatos = document.getElementById("campeonatos");
                 campeonatos.innerText = piloto.campeonatos_mundiales;
+
+                const imagen = document.getElementById("imagen");
+                image.classList.add('driver-image');
+                image.src = piloto.imagen;
             }
 
             function handle_error(error) {
                 console.error('Error fetching data:', error);
             }
 
-            fetch(`http://localhost:5000/pilotos/${id}`)
+            fetch(`http://localhost:5000/piloto/${id}`)
                 .then(response_received)
                 .then(parse_data)
                 .catch(handle_error);

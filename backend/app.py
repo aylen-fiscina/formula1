@@ -3,7 +3,7 @@ from flask_cors import CORS
 from db.formula1 import db, Piloto, Escuderia, Circuito, Carrera
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:emi123@localhost:5432/formula1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
@@ -34,11 +34,10 @@ def get_drivers():
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
 
-@app.route('/pilotos/<int:id_piloto>', methods=['GET'])
-def get_driver(id_piloto):
+@app.route('/piloto/<id>', methods=['GET'])
+def get_driver(id):
     try:
-        piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id_piloto).first()
-        
+        piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id).all()
         if not piloto:
             return jsonify({'message': 'Piloto no encontrado'}), 404
     
@@ -53,8 +52,9 @@ def get_driver(id_piloto):
             'numero': piloto.numero,
             'imagen': piloto.imagen,
         }
+
         
-        return jsonify(driver_data)
+        return jsonify({'piloto': driver_data})
     
     except Exception as error:
         print('Error:', error)
