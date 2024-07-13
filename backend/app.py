@@ -103,7 +103,7 @@ def get_team(id_escuderia):
         return jsonify({'message': 'Error interno del servidor'}), 500
     
 @app.route('/circuitos', methods=['GET'])
-def get_races():
+def get_circuits():
     try:
         circuitos = Circuito.query.all()
         circuitos_data = []
@@ -120,7 +120,7 @@ def get_races():
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
-
+    
 if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
