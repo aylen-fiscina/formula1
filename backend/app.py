@@ -124,7 +124,7 @@ def get_circuits():
 @app.route('/fechas/<fecha>', methods=['GET'])
 def get_fechas(fecha):
     try:
-        fechas = db.session.query(Carrera, Circuito).filter(Carrera.fecha == fecha, Circuito.id_circuito == Carrera.id_circuito).distinct(Carrera.id_circuito).all()
+        fechas = db.session.query(Carrera, Circuito).join(Circuito, Carrera.id_circuito == Circuito.id_circuito).filter(Carrera.fecha == fecha).distinct(Carrera.id_circuito).all()
         fechas_data = []
         for fecha, circuito in fechas:
             print(fecha)
