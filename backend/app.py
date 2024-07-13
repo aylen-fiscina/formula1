@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from db.formula1 import db, Piloto, Escuderia, Circuito
+from db.formula1 import db, Piloto, Escuderia, Circuito, Carrera
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
@@ -121,6 +121,27 @@ def get_circuits():
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
     
+@app.route('/fechas/<fecha>', methods=['GET'])
+def get_fechas(fecha):
+    try:
+        fechas = db.session.query(Carrera, Circuito).filter(Carrera.fecha == fecha, Circuito.id_circuito == Carrera.id_circuito).distinct(Carrera.id_circuito).all()
+        fechas_data = []
+        for fecha, circuito in fechas:
+            print(fecha)
+            fecha_data = {
+                'id': fecha.id_circuito,
+                'nombre': circuito.nombre,
+                'ciudad': circuito.ciudad,
+                'distancia': circuito.distancia,
+                #'Fecha': circuito.date.strftime('%Y-%m-%d'), 
+            }
+            fechas_data.append(fecha_data)
+        return jsonify({'fechas': fechas_data})  
+    except Exception as error:
+        print('Error:', error)
+        return jsonify({'message': 'Error interno del servidor'}), 500
+    
+
 if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
