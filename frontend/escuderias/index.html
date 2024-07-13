@@ -56,19 +56,21 @@
 
         function parse_data(escuderia) {
             console.log(escuderia);
+
             const campeonatos = document.getElementById("campeonatos");
             campeonatos.innerText = escuderia.campeonatos_mundiales;
+
         }
 
         function handle_error(error) {
             console.error('Error fetching data:', error);
         }
 
-        fetch(`http://localhost:5000/escuderia/${id}`)
+        fetch(`http://localhost:5000/escuderias/${id}`)
             .then(response_received)
             .then(parse_data)
             .catch(handle_error);
-    
+
 
     </script>
 </body>

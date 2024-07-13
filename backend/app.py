@@ -3,7 +3,7 @@ from flask_cors import CORS
 from db.formula1 import db, Piloto, Escuderia, Circuito, Carrera
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:emi123@localhost:5432/formula1'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
@@ -14,7 +14,7 @@ def hello_world():
 @app.route('/pilotos', methods=['GET'])
 def get_drivers():
     try:
-        pilotos, escuderia = db.session.query(Piloto).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).all()
+        pilotos = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).all()
         pilotos_data = []
         for piloto, escuderia in pilotos:
             driver_data = {
@@ -34,15 +34,17 @@ def get_drivers():
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
 
-@app.route('/piloto/<id>', methods=['GET'])
-def get_driver(id):
+@app.route('/pilotos/<int:id_piloto>', methods=['GET'])
+def get_driver(id_piloto):
     try:
-        piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id).all()
+        piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id_piloto).first()
+
         if not piloto:
             return jsonify({'message': 'Piloto no encontrado'}), 404
-    
+
         driver_data = {
             'id': piloto.id_piloto,
+            'id_escuderia': piloto.id_escuderia,
             'nombre': piloto.nombre,
             'apellido': piloto.apellido,
             'equipo': escuderia.nombre,
@@ -53,9 +55,8 @@ def get_driver(id):
             'imagen': piloto.imagen,
         }
 
-        
-        return jsonify({'piloto': driver_data})
-    
+        return jsonify(driver_data)
+
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
@@ -80,10 +81,10 @@ def get_teams():
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
     
-@app.route('/escuderia/<id>', methods=['GET'])
-def get_team(id):
+@app.route('/escuderias/<int:id_escuderia>', methods=['GET'])
+def get_team(id_escuderia):
     try:
-        escuderia = db.session.query(Escuderia).filter(Escuderia.id_escuderia == id).all()
+        escuderia = Escuderia.query.get(id_escuderia)
 
         if not escuderia:
             return jsonify({'message': 'Escudería no encontrada'}), 404
@@ -95,8 +96,9 @@ def get_team(id):
             'lider': escuderia.lider,
             'imagen': escuderia.imagen,
         }
-        return jsonify({'escuderia':team_data})
-    
+
+        return jsonify(team_data)
+
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'}), 500
@@ -109,10 +111,10 @@ def get_circuits():
         for circuito in circuitos:
             circuito_data = {
                 'id': circuito.id_circuito,
-                'NombreCircuito': circuito.nombre,
-                'Pais': circuito.ciudad,
-                'Distancia': circuito.distancia,
-                'Fecha': circuito.fecha, 
+                'nombre_circuito': circuito.nombre,
+                'pais': circuito.ciudad,
+                'distancia': circuito.distancia,
+                'fecha': circuito.fecha, 
             }
             circuitos_data.append(circuito_data)
         return jsonify({'circuitos': circuitos_data})  
@@ -132,7 +134,7 @@ def get_fechas(fecha):
                 'nombre': circuito.nombre,
                 'ciudad': circuito.ciudad,
                 'distancia': circuito.distancia,
-                #'Fecha': circuito.date.strftime('%Y-%m-%d'), 
+                'fecha': circuito.fecha, 
             }
             fechas_data.append(fecha_data)
         return jsonify({'fechas': fechas_data})  

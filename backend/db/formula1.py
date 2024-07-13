@@ -36,6 +36,6 @@ class Carrera(db.Model):
     __tablename__ = 'carrera'
     id_piloto = db.Column(db.Integer, db.ForeignKey('piloto.id_piloto'), primary_key=True)
     id_circuito = db.Column(db.Integer, db.ForeignKey('circuito.id_circuito'), primary_key=True)
-    fecha = db.Column(db.Date, nullable=True) 
+    fecha = db.Column(db.Integer, nullable=True) 
     pos = db.Column(db.Integer, nullable=False)
     puntos = db.Column(db.Integer, nullable=False)
