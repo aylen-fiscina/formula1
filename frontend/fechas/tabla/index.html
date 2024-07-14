@@ -9,8 +9,16 @@
     <link rel="stylesheet" href="../../style.css">
     <title>Resultados</title>
     <style>
-         a {
-          color: #ddd;
+        a {
+            color: #ddd;
+        }
+      
+        .list-group-item {
+            border-bottom: 1px solid #ccc; 
+            margin-bottom: 10px; 
+        }
+        .badge {
+            margin-left: 10px; 
         }
     </style>
 </head>
@@ -86,11 +94,8 @@
                 return 0;
             });
             for (index in content.carrera) {
-                let img = document.createElement('img');
-                img.src = content.carrera[index].escuderia_imagen;
-                img.style.width = '36px';
-                img.style.height = '36px';
-                img.classList.add('img-icon');
+                let equipo = document.createElement('span');
+                equipo.innerText = content.carrera[index].escuderia_nombre;
 
                 let span = document.createElement('span');
                 span.classList.add('badge', 'badge-primary', 'badge-pill');
@@ -98,9 +103,14 @@
 
                 let li = document.createElement('li');
                 li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'col-auto');
-                li.innerText = (content.carrera[index].piloto_nombre + ' ' + content.carrera[index].piloto_apellido);
-                li.style.margin = '10 auto';
-                li.appendChild(img);
+                
+                let posicion = document.createElement('span');
+                posicion.innerText = content.carrera[index].posicion + '. ';
+                posicion.style.fontWeight = 'bold';
+                li.appendChild(posicion);
+
+                li.appendChild(document.createTextNode(content.carrera[index].piloto_nombre + ' ' + content.carrera[index].piloto_apellido));
+                li.appendChild(equipo);
                 li.appendChild(span);
                 lista.appendChild(li);
             };
@@ -110,8 +120,6 @@
             console.log("ERROR")
             console.log(error);
         }
-        
-        
         
         fetch(`http://localhost:5000/fechas/tabla/${fecha}&${id}`)
             .then(response_received)
