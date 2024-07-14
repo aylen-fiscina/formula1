@@ -8,8 +8,7 @@ INSERT INTO public.circuito (nombre,ciudad,distancia,fecha) VALUES
 	 ('Baku City Circuit','Bakú',6.003,'2024-09-15'),
 	 ('Marina Bay Street Circuit','Singapur',5.063,'2024-09-22'),
 	 ('Circuit of the Americas','Austin',5.513,'2024-10-20'),
-	 ('Autódromo Hermanos Rodríguez','Ciudad de México',4.304,'2024-10-27');
-INSERT INTO public.circuito (nombre,ciudad,distancia,fecha) VALUES
+	 ('Autódromo Hermanos Rodríguez','Ciudad de México',4.304,'2024-10-27'),
 	 ('Autódromo José Carlos Pace','São Paulo',4.309,'2024-11-03'),
 	 ('Las Vegas Street Circuit','Las Vegas',6.2,'2024-11-24'),
 	 ('Losail International Circuit','Losail',5.38,'2024-12-01'),
@@ -19,8 +18,7 @@ INSERT INTO public.circuito (nombre,ciudad,distancia,fecha) VALUES
 	 ('Albert Park Circuit','Melbourne',5.303,'2024-03-24'),
 	 ('Suzuka Circuit','Suzuka',5.807,'2024-04-07'),
 	 ('Shanghai International Circuit','Shanghai',5.451,'2024-04-21'),
-	 ('Miami International Autodrome','Miami',5.41,'2024-05-05');
-INSERT INTO public.circuito (nombre,ciudad,distancia,fecha) VALUES
+	 ('Miami International Autodrome','Miami',5.41,'2024-05-05'),
 	 ('Autodromo Enzo e Dino Ferrari','Imola',4.959,'2024-05-19'),
 	 ('Circuit de Monaco','Mónaco',3.337,'2024-05-26'),
 	 ('Circuit Gilles Villeneuve','Montreal',4.361,'2024-06-09'),
