@@ -7,7 +7,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@local
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 db.init_app(app)
-
 @app.route('/')
 def hello_world():
     return 'Hello!'
@@ -167,6 +166,5 @@ def get_tabla(fecha, id):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.init_app(app)
         db.create_all()
     app.run(host='localhost', port=5000, debug=True)
