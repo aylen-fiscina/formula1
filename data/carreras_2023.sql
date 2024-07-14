@@ -20,8 +20,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(1,19,2023,1,25),
 	(1,20,2023,1,25),
 	(1,21,2023,1,25),
-	(1,22,2023,1,25);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(1,22,2023,1,25),
 	(2,1,2023,0,0),
 	(2,2,2023,15,0),
 	(2,3,2023,8,4),
@@ -43,8 +42,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(2,19,2023,8,4),
 	(2,20,2023,14,0),
 	(2,21,2023,10,1),
-	(2,22,2023,6,8);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(2,22,2023,6,8),
 	(3,1,2023,17,0),
 	(3,2,2023,17,0),
 	(3,3,2023,6,8),
@@ -66,8 +64,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(3,19,2023,5,10),
 	(3,20,2023,2,18),
 	(3,21,2023,0,0),
-	(3,22,2023,5,10);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(3,22,2023,5,10),
 	(4,1,2023,2,18),
 	(4,2,2023,1,25),
 	(4,3,2023,5,10),
@@ -89,8 +86,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(4,19,2023,0,0),
 	(4,20,2023,4,12),
 	(4,21,2023,3,15),
-	(4,22,2023,4,12);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(4,22,2023,4,12),
 	(5,1,2023,0,0),
 	(5,2,2023,7,6),
 	(5,3,2023,0,0),
@@ -112,8 +108,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(5,19,2023,3,15),
 	(5,20,2023,0,0),
 	(5,21,2023,2,18),
-	(5,22,2023,2,18);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(5,22,2023,2,18),
 	(6,1,2023,4,12),
 	(6,2,2023,6,8),
 	(6,3,2023,12,0),
@@ -135,8 +130,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(6,19,2023,4,12),
 	(6,20,2023,6,8),
 	(6,21,2023,6,8),
-	(6,22,2023,18,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(6,22,2023,18,0),
 	(7,1,2023,7,6),
 	(7,2,2023,4,12),
 	(7,3,2023,0,0),
@@ -158,8 +152,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(7,19,2023,6,8),
 	(7,20,2023,0,0),
 	(7,21,2023,8,4),
-	(7,22,2023,3,15);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(7,22,2023,3,15),
 	(8,1,2023,5,10),
 	(8,2,2023,5,10),
 	(8,3,2023,2,18),
@@ -181,8 +174,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(8,19,2023,2,18),
 	(8,20,2023,8,4),
 	(8,21,2023,7,6),
-	(8,22,2023,9,2);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(8,22,2023,9,2),
 	(9,1,2023,3,15),
 	(9,2,2023,3,15),
 	(9,3,2023,3,15),
@@ -204,8 +196,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(9,19,2023,0,0),
 	(9,20,2023,3,15),
 	(9,21,2023,9,2),
-	(9,22,2023,7,6);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(9,22,2023,7,6),
 	(10,1,2023,6,8),
 	(10,2,2023,0,0),
 	(10,3,2023,4,12),
@@ -227,8 +218,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(10,19,2023,17,0),
 	(10,20,2023,5,10),
 	(10,21,2023,5,10),
-	(10,22,2023,10,1);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(10,22,2023,10,1),
 	(11,1,2023,11,0),
 	(11,2,2023,11,0),
 	(11,3,2023,10,1),
@@ -250,8 +240,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(11,19,2023,12,0),
 	(11,20,2023,9,2),
 	(11,21,2023,18,0),
-	(11,22,2023,8,4);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(11,22,2023,8,4),
 	(12,1,2023,0,0),
 	(12,2,2023,0,0),
 	(12,3,2023,0,0),
@@ -273,8 +262,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(12,19,2023,7,6),
 	(12,20,2023,13,0),
 	(12,21,2023,14,0),
-	(12,22,2023,11,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(12,22,2023,11,0),
 	(13,1,2023,15,0),
 	(13,2,2023,12,0),
 	(13,3,2023,7,6),
@@ -296,8 +284,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(13,19,2023,13,0),
 	(13,20,2023,12,0),
 	(13,21,2023,19,0),
-	(13,22,2023,15,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(13,22,2023,15,0),
 	(14,1,2023,13,0),
 	(14,2,2023,10,1),
 	(14,3,2023,17,0),
@@ -319,8 +306,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(14,19,2023,0,0),
 	(14,20,2023,0,0),
 	(14,21,2023,13,0),
-	(14,22,2023,20,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(14,22,2023,20,0),
 	(15,1,2023,9,2),
 	(15,2,2023,9,2),
 	(15,3,2023,13,0),
@@ -342,8 +328,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(15,19,2023,11,0),
 	(15,20,2023,7,6),
 	(15,21,2023,11,0),
-	(15,22,2023,13,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(15,22,2023,13,0),
 	(16,1,2023,0,0),
 	(16,2,2023,8,4),
 	(16,3,2023,14,0),
@@ -365,8 +350,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(16,19,2023,10,1),
 	(16,20,2023,10,1),
 	(16,21,2023,4,12),
-	(16,22,2023,12,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(16,22,2023,12,0),
 	(17,1,2023,10,1),
 	(17,2,2023,0,0),
 	(17,3,2023,0,0),
@@ -388,8 +372,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(17,19,2023,9,2),
 	(17,20,2023,0,0),
 	(17,21,2023,12,0),
-	(17,22,2023,14,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(17,22,2023,14,0),
 	(18,1,2023,12,0),
 	(18,2,2023,16,0),
 	(18,3,2023,16,0),
@@ -411,8 +394,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(18,19,2023,16,0),
 	(18,20,2023,11,0),
 	(18,21,2023,16,0),
-	(18,22,2023,16,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(18,22,2023,16,0),
 	(19,1,2023,16,0),
 	(19,2,2023,13,0),
 	(19,3,2023,9,2),
@@ -434,8 +416,7 @@ INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
 	(19,19,2023,14,0),
 	(19,20,2023,0,0),
 	(19,21,2023,15,0),
-	(19,22,2023,17,0);
-INSERT INTO public.carrera (id_piloto,id_circuito,fecha,pos,puntos) VALUES
+	(19,22,2023,17,0),
 	(20,1,2023,8,4),
 	(20,2,2023,18,0),
 	(20,3,2023,11,0),
