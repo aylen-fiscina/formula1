@@ -11,10 +11,16 @@
         a {
             color: #ddd;
         }
+        .btn-volver {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
     </style>
 </head>
 
 <body>
+    <input type="button" value="Volver" onclick="history.back()" class="btn btn-primary btn-volver">
     <div class="container my-4">
         <div class="row">
             <div class="col-12 col-md-10 mx-auto">
@@ -27,10 +33,8 @@
                             <div class="col-6">
                                 <h2 id="name"></h2>
                                 <h4 id="equipo"></h4>
-                                <h5>Número: <span id="numero"></span></h5>
-                                <h5>Nacionalidad: <span id="nacionalidad"></span></h5>
-                                <h5>Podios: <span id="podios"></span></h5>
-                                <h5>Campeonatos Mundiales: <span id="campeonatos"></span></h5>
+                                <h5>Lider: <span id="lider"></span></h5>
+                                <h5>Campeonatos de Constructores: <span id="campeonatos"></span></h5>
                             </div>
                         </div>
                     </div>
@@ -56,9 +60,18 @@
 
         function parse_data(escuderia) {
             console.log(escuderia);
+            const name = document.getElementById("name");
+            name.innerText = escuderia.nombre;
 
+            const lider = document.getElementById("lider");
+            lider.innerText = escuderia.lider;
             const campeonatos = document.getElementById("campeonatos");
             campeonatos.innerText = escuderia.campeonatos_mundiales;
+
+            const image = document.getElementById("image");
+            image.src = escuderia.imagen;
+
+            
 
         }
 
