@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://intro:intro@localhost:5432/formula1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
-db.init_app(app)
+
 @app.route('/')
 def hello_world():
     return 'Hello!'
@@ -32,7 +32,7 @@ def get_drivers():
         return jsonify({'pilotos': pilotos_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
 
 @app.route('/pilotos/<int:id_piloto>', methods=['GET'])
 def get_driver(id_piloto):
@@ -40,7 +40,7 @@ def get_driver(id_piloto):
         piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id_piloto).first()
 
         if not piloto:
-            return jsonify({'message': 'Piloto no encontrado'}), 404
+            return jsonify({'message': 'Piloto no encontrado'})
 
         driver_data = {
             'id': piloto.id_piloto,
@@ -59,7 +59,7 @@ def get_driver(id_piloto):
 
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
 
 
 @app.route('/escuderias', methods=['GET'])
@@ -79,7 +79,7 @@ def get_teams():
         return jsonify({'escuderias': escuderias_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
     
 @app.route('/escuderias/<int:id_escuderia>', methods=['GET'])
 def get_team(id_escuderia):
@@ -87,7 +87,7 @@ def get_team(id_escuderia):
         escuderia = Escuderia.query.get(id_escuderia)
 
         if not escuderia:
-            return jsonify({'message': 'Escudería no encontrada'}), 404
+            return jsonify({'message': 'Escudería no encontrada'})
 
         team_data = {
             'id': escuderia.id_escuderia,
@@ -101,7 +101,7 @@ def get_team(id_escuderia):
 
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
     
 @app.route('/circuitos', methods=['GET'])
 def get_circuits():
@@ -120,7 +120,7 @@ def get_circuits():
         return jsonify({'circuitos': circuitos_data})  
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
     
 @app.route('/fechas/<fecha>', methods=['GET'])
 def get_fechas(fecha):
@@ -128,7 +128,6 @@ def get_fechas(fecha):
         fechas = db.session.query(Carrera, Circuito).join(Circuito, Carrera.id_circuito == Circuito.id_circuito).filter(Carrera.fecha == fecha).distinct(Carrera.id_circuito).all()
         fechas_data = []
         for fecha, circuito in fechas:
-            print(fecha)
             fecha_data = {
                 'id': fecha.id_circuito,
                 'nombre': circuito.nombre,
@@ -140,7 +139,7 @@ def get_fechas(fecha):
         return jsonify({'fechas': fechas_data})  
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
     
 @app.route('/fechas/tabla/<fecha>&<id>', methods=['GET'])
 def get_tabla(fecha, id):
@@ -148,7 +147,6 @@ def get_tabla(fecha, id):
         carreras = db.session.query(Carrera, Piloto, Escuderia).join(Piloto, Carrera.id_piloto == Piloto.id_piloto).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Carrera.fecha == fecha, Carrera.id_circuito == id).all()
         carrera_data = []
         for race, piloto, escuderia in carreras :
-            print(piloto.nombre)
             race_data = {
                 'piloto_nombre': piloto.nombre,
                 'piloto_apellido': piloto.apellido,
@@ -161,10 +159,11 @@ def get_tabla(fecha, id):
         return jsonify({'carrera': carrera_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'}), 500
+        return jsonify({'message': 'Error interno del servidor'})
     
 
 if __name__ == '__main__':
+    db.init_app(app)
     with app.app_context():
         db.create_all()
     app.run(host='localhost', port=5000, debug=True)
