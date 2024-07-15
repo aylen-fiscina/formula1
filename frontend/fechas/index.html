@@ -73,16 +73,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script>
         
+        const params = new URLSearchParams(window.location.search);
+        const fecha = params.get("fecha");
         function response_received(response) {
             return response.json()
         }
-
-
-
         function parse_data(content) {
             console.log(content);
             let lista = document.getElementById("lista");
-
             console.log(content);
             for (index in content.fechas) {
 
@@ -103,21 +101,15 @@
                 li.appendChild(linkDiv);
                 li.appendChild(span);
                 
-
                 lista.appendChild(li);
 
             };
         }
-            
-        const params = new URLSearchParams(window.location.search);
-        const fecha = params.get("fecha");
-
 
         function request_error(error) {
             console.log("ERROR")
            console.log(error);
         }
-
         fetch(`http://localhost:5000/fechas/${fecha}`)
             .then(response_received)
             .then(parse_data)
