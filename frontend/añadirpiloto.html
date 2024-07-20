@@ -25,19 +25,30 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active bs-light-text-emphasis" aria-current="page" href="resultados.html">Resultados</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pilotos.html">Pilotos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="equipos.html">Equipos</a>
-                    </li>
-                </ul>
-            </div>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Resultados
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="fechas/?fecha=2024">2024</a>
+                      <a class="dropdown-item" href="fechas/?fecha=2023">2023</a>
+                      <a class="dropdown-item" href="fechas/?fecha=2022">2022</a>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                      <a id="pilotos-link" class="nav-link" href="pilotos.html">Pilotos</a>
+                  </li>
+                  <li class="nav-item">
+                      <a id="escuderias-link" class="nav-link" href="equipos.html">Equipos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a id="circuitos-link" class="nav-link" href="circuitos.html">Circuitos</a>
+                  </li>
+              
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 </header>
 <body >  
   <div class="container mt-5">  
@@ -70,8 +81,8 @@
 </div>
 
 <div class="col-md-6">
-  <label for="campeonatosMundiales" class="form-label">Campeonatos Mundiales:</label>
-  <input type="number" id="campeonatosMundiales" name="campeonatosMundiales" class="form-control" required>
+  <label for="campeonatos_mundiales" class="form-label">Campeonatos Mundiales:</label>
+  <input type="number" id="campeonatos_mundiales" name="campeonatos_mundiales" class="form-control" required>
 </div>
 
 <div class="col-md-6">
@@ -80,8 +91,8 @@
 </div>
 
 <div class="col-md-6">
-  <label for="fotoUrl" class="form-label">URL de Foto:</label>
-  <input type="url" id="fotoUrl" name="fotoUrl" class="form-control" required>
+  <label for="imagen" class="form-label">URL de Foto:</label>
+  <input type="url" id="imagen" name="imagen" class="form-control" required>
 </div>
 
 <div class="col-12 mt-3">  <button type="submit" class="btn btn-primary btn-block bg-danger">Agregar Piloto</button>
@@ -103,6 +114,48 @@
   option.text = escuderia.name;
   escuderiaSelect.appendChild(option);
   });
+
+  const formularioPiloto = document.getElementById('formularioPiloto');
+formularioPiloto.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const nombre = document.getElementById('nombre').value;
+  const apellido = document.getElementById('apellido').value;
+  const ciudad = document.getElementById('ciudad').value;
+  const escuderiaId = document.getElementById('escuderia').value;
+  const podios = document.getElementById('podios').value;
+  const campeonatosMundiales = document.getElementById('campeonatos_mundiales').value;
+  const numero = document.getElementById('numero').value;
+  const imagen = document.getElementById('imagen').value;
+
+
+  const response = await fetch('/pilotos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre,
+      apellido,
+      ciudad,
+      escuderia: escuderiaId, 
+      podios,
+      campeonatos_mundiales,
+      numero,
+      imagen
+    })
+  });
+
+  if (response.ok) {
+    
+    alert('Piloto guardado con éxito!');
+    
+  } else {
+
+    const error = await response.json();
+    alert('Error al guardar el piloto: ' + error.message);
+  }
+});
 
   
   </script>
