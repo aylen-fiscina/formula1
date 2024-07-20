@@ -60,7 +60,27 @@ def get_driver(id_piloto):
     except Exception as error:
         print('Error:', error)
         return jsonify({'message': 'Error interno del servidor'})
-
+        
+@app.route('/pilotos', methods=['POST'])
+def nuevo_piloto():
+    try:
+        #aca va nuevo nombre=nombre asi se va guardando en la bd
+        data = request.json
+        nombre = data.get('nombre')
+        apellido = data.get('apellido')
+        escuderia= data.get('escuderia')
+        ciudad = data.get('ciudad')
+        podios = data.get('podios')
+        campeonatos_mundiales = data.get('campeonatos_mundiales')
+        numero = data.get('numero')
+        imagen = data.get('imagen')
+        
+        nuevo_piloto = Piloto(nombre=nombre,apellido=apellido,ciudad=ciudad,id_escuderia=escuderia,podios=podios,campeonatos_mundiales=campeonatos_mundiales, numero=numero, imagen=imagen)
+        db.session.add(nuevo_piloto)
+        db.session.commit()
+        
+    except :
+        return jsonify({'message': 'No se pudo crear'}), 500
 
 @app.route('/escuderias', methods=['GET'])
 def get_teams():
