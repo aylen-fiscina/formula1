@@ -32,7 +32,8 @@ def get_drivers():
         return jsonify({'pilotos': pilotos_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
+
 
 @app.route('/pilotos/<int:id_piloto>', methods=['GET'])
 def get_driver(id_piloto):
@@ -40,7 +41,7 @@ def get_driver(id_piloto):
         piloto, escuderia = db.session.query(Piloto, Escuderia).join(Escuderia, Piloto.id_escuderia == Escuderia.id_escuderia).filter(Piloto.id_piloto == id_piloto).first()
 
         if not piloto:
-            return jsonify({'message': 'Piloto no encontrado'})
+            return jsonify({'message': 'Piloto no encontrado'}), 404
 
         driver_data = {
             'id': piloto.id_piloto,
@@ -59,12 +60,72 @@ def get_driver(id_piloto):
 
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
+
+@app.route('/pilotos/<int:id_piloto>', methods=['PUT'])
+def edit_driver(id_piloto):
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'message': 'No data provided'}), 400
+
+        piloto = Piloto.query.get(id_piloto)
+        if not piloto:
+            return jsonify({'message': f'Piloto with id {id_piloto} not found'}), 404
+
+        if 'nombre' in data:
+            piloto.nombre = data['nombre']
+        if 'apellido' in data:
+            piloto.apellido = data['apellido']
+        if 'ciudad' in data:
+            piloto.ciudad = data['ciudad']
+        if 'podios' in data:
+            piloto.podios = data['podios']
+        if 'campeonatos_mundiales' in data:
+            piloto.campeonatos_mundiales = data['campeonatos_mundiales']
+        if 'numero' in data:
+            piloto.numero = data['numero']
+        if 'imagen' in data:
+            piloto.imagen = data['imagen']
+        if 'id_escuderia' in data:
+            piloto.id_escuderia = data['id_escuderia']
+
+        db.session.commit()
+
+        return jsonify({
+            'success': True,
+            'id': piloto.id_piloto,
+            'message': f'Piloto with id {id_piloto} successfully updated'
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Error: {str(e)}'}), 500
+@app.route('/pilotos/<int:id_piloto>', methods=['DELETE'])
+def eliminar_piloto(id_piloto):
+    try:
+        piloto = Piloto.query.get(id_piloto)
+        if not piloto:
+            return jsonify({'success': False, 'message': f'Piloto with id {id_piloto} not found'}), 404
+        carreras = Carrera.query.filter_by(id_piloto=id_piloto).all()
+        if carreras:
+         
+         for carrera in carreras:
+             db.session.delete(carrera)
+
+        db.session.delete(piloto)
+        db.session.commit()
+
+        return jsonify({'success': True, 'message': f'Piloto with id {id_piloto} deleted successfully'}), 200
+
+    except Exception as error:
+        print('Error:', error)
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
         
 @app.route('/pilotos', methods=['POST'])
 def nuevo_piloto():
     try:
-        #aca va nuevo nombre=nombre asi se va guardando en la bd
+        
         data = request.json
         nombre = data.get('nombre')
         apellido = data.get('apellido')
@@ -99,7 +160,7 @@ def get_teams():
         return jsonify({'escuderias': escuderias_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
     
 @app.route('/escuderias/<int:id_escuderia>', methods=['GET'])
 def get_team(id_escuderia):
@@ -107,7 +168,7 @@ def get_team(id_escuderia):
         escuderia = Escuderia.query.get(id_escuderia)
 
         if not escuderia:
-            return jsonify({'message': 'Escudería no encontrada'})
+            return jsonify({'message': 'Escudería no encontrada'}), 404
 
         team_data = {
             'id': escuderia.id_escuderia,
@@ -121,7 +182,7 @@ def get_team(id_escuderia):
 
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
     
 @app.route('/circuitos', methods=['GET'])
 def get_circuits():
@@ -140,7 +201,7 @@ def get_circuits():
         return jsonify({'circuitos': circuitos_data})  
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
     
 @app.route('/fechas/<fecha>', methods=['GET'])
 def get_fechas(fecha):
@@ -159,7 +220,7 @@ def get_fechas(fecha):
         return jsonify({'fechas': fechas_data})  
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}),500
     
 @app.route('/fechas/tabla/<fecha>&<id>', methods=['GET'])
 def get_tabla(fecha, id):
@@ -179,7 +240,7 @@ def get_tabla(fecha, id):
         return jsonify({'carrera': carrera_data})
     except Exception as error:
         print('Error:', error)
-        return jsonify({'message': 'Error interno del servidor'})
+        return jsonify({'message': 'Error interno del servidor'}), 500
     
 
 if __name__ == '__main__':
