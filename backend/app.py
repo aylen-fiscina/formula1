@@ -122,26 +122,26 @@ def eliminar_piloto(id_piloto):
         print('Error:', error)
         return jsonify({'success': False, 'message': 'Internal server error'}), 500
         
-@app.route('/pilotos', methods=['POST'])
+@app.route('/pilotoscreate', methods=["POST"])
 def nuevo_piloto():
     try:
-        
+        id_piloto = len(Piloto.query.all())+1
         data = request.json
-        nombre = data.get('nombre')
-        apellido = data.get('apellido')
-        escuderia= data.get('escuderia')
-        ciudad = data.get('ciudad')
-        podios = data.get('podios')
-        campeonatos_mundiales = data.get('campeonatos_mundiales')
-        numero = data.get('numero')
-        imagen = data.get('imagen')
-        
-        nuevo_piloto = Piloto(nombre=nombre,apellido=apellido,ciudad=ciudad,id_escuderia=escuderia,podios=podios,campeonatos_mundiales=campeonatos_mundiales, numero=numero, imagen=imagen)
+        nuevo_piloto = Piloto(id_piloto=id_piloto,
+                              nombre=data["nombre"],
+                              apellido=data["apellido"],
+                              ciudad=data["ciudad"],
+                              podios=data["podios"],
+                              id_escuderia=data["id_escuderia"],
+                              campeonatos_mundiales=data["campeonatos_mundiales"],
+                              numero=data["numero"],
+                              imagen=data["imagen"])
         db.session.add(nuevo_piloto)
         db.session.commit()
-        
-    except :
-        return jsonify({'message': 'No se pudo crear'}), 500
+        return jsonify({'success': True, 'message': f'Piloto with id {id_piloto} created successfully'}), 200
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/escuderias', methods=['GET'])
 def get_teams():
