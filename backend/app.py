@@ -125,9 +125,9 @@ def eliminar_piloto(id_piloto):
 @app.route('/pilotoscreate', methods=["POST"])
 def nuevo_piloto():
     try:
-        id_piloto = len(Piloto.query.all())+1
+        
         data = request.json
-        nuevo_piloto = Piloto(id_piloto=id_piloto,
+        nuevo_piloto = Piloto(
                               nombre=data["nombre"],
                               apellido=data["apellido"],
                               ciudad=data["ciudad"],
@@ -138,7 +138,7 @@ def nuevo_piloto():
                               imagen=data["imagen"])
         db.session.add(nuevo_piloto)
         db.session.commit()
-        return jsonify({'success': True, 'message': f'Piloto with id {id_piloto} created successfully'}), 200
+        return jsonify({'success': True, 'message': f'Piloto with id {nuevo_piloto.id_piloto} created successfully'}), 200
     except Exception as e:
         print('Error:', e)
         return jsonify({'success': False, 'message': 'Internal server error'}), 500
