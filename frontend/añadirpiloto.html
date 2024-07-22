@@ -53,7 +53,7 @@
 <body >  
   <div class="container mt-5">  
     <h1 class="text-center mb-4">Agregar Piloto</h1>  
-    <form id="formularioPiloto" class="row gy-3">  
+    <form onsubmit="crearPilot(event)" method="post" class="row gy-3">  
       <div class="col-md-6">  
         <label for="nombre" class="form-label">Nombre:</label>
         <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -99,66 +99,56 @@
 </div>
 </form>
 </div>
+<script >
+  fetch("http://localhost:5000/escuderias")
+    .then(response => response.json())
+    .then(parse_data_escuderias)
+    .catch(error => {
+        console.error('Error fetching escuderias:', error);
+    });
+  function parse_data_escuderias(content) {
+    const escuderias = content.escuderias;
+    const escuderiaSelect = document.getElementById("escuderia");
+    for (index in escuderias) {
+        const option = document.createElement('option');
+        option.value = escuderias[index].id;
+        option.textContent = escuderias[index].nombre;
+        escuderiaSelect.appendChild(option);
+    }
 
-
-  <script >
-  console.log(content);
-  const escuderias = content.escuderias;
-  const teamList = document.getElementById("team-list");
-  teamList.innerHTML = '';
-
-
-  escuderias.forEach(escuderia => {
-  const option = document.createElement('option');
-  option.value = escuderia.id;
-  option.text = escuderia.name;
-  escuderiaSelect.appendChild(option);
-  });
-
-  const formularioPiloto = document.getElementById('formularioPiloto');
-formularioPiloto.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const nombre = document.getElementById('nombre').value;
-  const apellido = document.getElementById('apellido').value;
-  const ciudad = document.getElementById('ciudad').value;
-  const escuderiaId = document.getElementById('escuderia').value;
-  const podios = document.getElementById('podios').value;
-  const campeonatosMundiales = document.getElementById('campeonatos_mundiales').value;
-  const numero = document.getElementById('numero').value;
-  const imagen = document.getElementById('imagen').value;
-
-
-  const response = await fetch('/pilotos', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      nombre,
-      apellido,
-      ciudad,
-      escuderia: escuderiaId, 
-      podios,
-      campeonatos_mundiales,
-      numero,
-      imagen
-    })
-  });
-
-  if (response.ok) {
-    
-    alert('Piloto guardado con éxito!');
-    
-  } else {
-
-    const error = await response.json();
-    alert('Error al guardar el piloto: ' + error.message);
   }
-});
-
-  
-  </script>
+</script>
+<script>
+  function crearPilot(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    let pilotData = {nombre: formData.get("nombre"),
+                    apellido: formData.get("apellido"),
+                    ciudad: formData.get("ciudad"),
+                    id_escuderia: formData.get("escuderia"),
+                    podios: formData.get("podios"),
+                    campeonatos_mundiales: formData.get("campeonatos_mundiales"),
+                    numero: formData.get("numero"),
+                    imagen: formData.get("imagen")}
+    console.log(pilotData)
+    fetch('http://localhost:5000/pilotoscreate', {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(pilotData)
+    })
+    .then(response => response.json())
+    .then(handleResponse)
+    .catch(error => console.error('Error al actualizar piloto:', error))
+    function handleResponse(data) {
+    if (data.success) {
+        alert("Cambios guardados");
+        window.location.href = "/pilotos";
+    } else {
+        alert("Error al guardar cambios");
+      }
+    }
+  }  
+</script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
